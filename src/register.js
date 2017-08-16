@@ -2,6 +2,37 @@ import React, { Component } from 'react';
 import './register.css';
 
 class Register extends Component {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
+        this.state = { fields: {} };
+        this.state = { msg: "" };
+    }
+    onInputChange(evt) {
+        evt.preventDefault();
+        const fields = this.state.fields;
+        fields[evt.target.name] = evt.target.value;
+        this.setState({fields});
+    }
+    handleSubmit(evt) {
+        evt.preventDefault();
+        const msg = this.validateForm(this.state.fields);
+        this.setState({msg:msg});
+        this.setState({ fields: {} });
+        console.log(this.state.fields);
+    }
+    validateForm(fields) {
+        this.message = "";
+        if (fields.password !== fields.confirmpassword) {
+            this.message = "Password mismatch";
+        }
+        else {
+            this.message = "Successfully registered";
+        }
+        return this.message;
+    }
+
     render() {
         return (
             <div className="page-content">
@@ -48,24 +79,27 @@ class PanelBody extends Component {
             <div className="panel panel-body">
                 <div className="row">
                     <div className="col-lg-12">
-                        <form id="register-form">
+                        <form id="register-form" onSubmit={this.handleSubmit}>
                             <div className="form-group">
-                                <input type="text" name="username" id="username" tabindex="1" className="form-control" placeholder="Username" required />
+                                <input type="text" name="username" tabIndex="1" className="form-control" placeholder="Username" required
+                                    value={this.state.fields.username} onChange={this.onInputChange} />
                             </div>
                             <div className="form-group">
-                                <input type="email" name="email" id="email" tabindex="2" className="form-control" placeholder="Email Address" required />
+                                <input type="email" name="email" tabIndex="2" className="form-control" placeholder="Email Address" required
+                                    value={this.state.fields.email} onChange={this.onInputChange} />
                             </div>
                             <div className="form-group">
-                                <input type="password" name="password" id="password" tabindex="3" className="form-control" placeholder="Password" required />
+                                <input type="password" name="password" tabIndex="3" className="form-control" placeholder="Password" required
+                                    value={this.state.fields.password} onChange={this.onInputChange} />
                             </div>
                             <div className="form-group">
-                                <input type="password" name="confirm-password" id="confirm-password" tabindex="4" className="form-control" placeholder="Confirm Password"
-                                    required />
+                                <input type="password" name="confirmpassword" tabIndex="4" className="form-control" placeholder="Confirm Password"
+                                    required value={this.state.fields.confirmpassword} onChange={this.onInputChange} />
                             </div>
                             <div className="form-group">
                                 <div className="row">
                                     <div className="col-sm-6 col-sm-offset-3">
-                                        <input type="submit" name="register-submit" id="register-submit" tabindex="5" className="form-control btn btn-register" value="Register Now" />
+                                        <input type="submit" name="register-submit" tabIndex="5" className="form-control btn btn-register" value="Register Now" />
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +113,7 @@ class PanelBody extends Component {
                 </div>
                 {/*row*/}
             </div>
-                
+
         );
     }
 }
