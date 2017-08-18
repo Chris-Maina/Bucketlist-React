@@ -23,6 +23,7 @@ class RegisterForm extends Component {
                     />
                     {/* panel body*/}
                     <PanelBody
+                        afterSubmit={this.handleAfterSubmit}
                     />
                 </div>
                 {/* panel-login*/}
@@ -46,7 +47,7 @@ class PanelHeading extends Component {
 class PanelBody extends Component {
     constructor(props) {
         super(props);
-        this.state = { fields: { } };
+        this.state = { fields: {} };
         this.state = { msg: "" };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
@@ -54,26 +55,26 @@ class PanelBody extends Component {
     onInputChange(evt) {
         var data = {};
         data[evt.target.name] = evt.target.value;
-        this.setState({fields : data});
+        this.setState({ fields: data });
     }
     handleSubmit(evt) {
-        
+
         const response = this.validateForm(this.state.fields);
         this.setState({ msg: response });
-        this.setState({ fields: { } });
+        this.setState({ fields: {} });
         console.log(this.state.fields);
     }
-    validateForm(fields){
-     this.message = "";
+    validateForm(fields) {
+        this.message = "";
         if (fields.password !== fields.confirmpassword) {
             this.message = "Password mismatch";
         }
         else {
             this.message = "Successfully registered";
         }
-        return this.message;   
+        return this.message;
     }
-   
+
     render() {
         return (
             <div className="panel panel-body">
@@ -82,19 +83,19 @@ class PanelBody extends Component {
                         <form id="register-form" onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <input type="text" name="username" tabIndex="1" className="form-control" placeholder="Username" required
-                                value = {this.state.fields.username} onChange={this.onInputChange} />
+                                    onChange={this.onInputChange} />
                             </div>
                             <div className="form-group">
                                 <input type="email" name="email" tabIndex="2" className="form-control" placeholder="Email Address" required
-                                value = {this.state.fields.email} onChange={this.onInputChange} />
+                                    onChange={this.onInputChange} />
                             </div>
                             <div className="form-group">
                                 <input type="password" name="password" tabIndex="3" className="form-control" placeholder="Password" required
-                                value = {this.state.fields.password} onChange={this.onInputChange} />
+                                    onChange={this.onInputChange} />
                             </div>
                             <div className="form-group">
                                 <input type="password" name="confirmpassword" tabIndex="4" className="form-control" placeholder="Confirm Password"
-                                value = {this.state.fields.confirmpassword} required  onChange={this.onInputChange} />
+                                    required onChange={this.onInputChange} />
                             </div>
                             <div className="form-group">
                                 <div className="row">
@@ -104,7 +105,7 @@ class PanelBody extends Component {
                                 </div>
                             </div>
                             <div className="form-group text-center">
-                                <a href="/login" className="forgot-password">Already have an account?Login</a>
+                                <a href="/auth/login" className="forgot-password">Already have an account?Login</a>
                             </div>
                         </form>
                         {/* Register form */}
