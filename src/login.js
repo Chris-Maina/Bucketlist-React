@@ -44,7 +44,7 @@ class LoginBody extends Component{
         return(
             <div style={style1} className="panel-body">
 
-                <form id="loginform" className="form-horizontal" role="form">
+                <form className="form-horizontal" >
 
                     <div style={style2} className="input-group ">
                         <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i>
