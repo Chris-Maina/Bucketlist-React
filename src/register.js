@@ -23,7 +23,6 @@ class RegisterForm extends Component {
                     />
                     {/* panel body*/}
                     <PanelBody
-                        afterSubmit={this.handleAfterSubmit}
                     />
                 </div>
                 {/* panel-login*/}
@@ -47,32 +46,36 @@ class PanelHeading extends Component {
 class PanelBody extends Component {
     constructor(props) {
         super(props);
-        this.state = { fields: {} };
-        this.state = { msg: "" };
+        this.state = {
+            username:'',
+            email:'',
+            password:'',
+            confirmpassword:'',
+            response: ''
+        } ;
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.onInputChange = this.onInputChange.bind(this);
-    }
-    onInputChange(evt) {
-        var data = {};
-        data[evt.target.name] = evt.target.value;
-        this.setState({ fields: data });
     }
     handleSubmit(evt) {
-
-        const response = this.validateForm(this.state.fields);
-        this.setState({ msg: response });
-        this.setState({ fields: {} });
-        console.log(this.state.fields);
+        this.setState({ 
+            username: evt.target.username.value,
+            email:evt.target.email.value,
+            password:evt.target.password.value,
+            confirmpassword:evt.target.confirmpassword.value
+         });
+        var res = this.validateForm(this.state.password, this.state.confirmpassword);
+        this.setState({response : res})
+        console.log(res);
+        evt.preventDefault();
     }
-    validateForm(fields) {
-        this.message = "";
-        if (fields.password !== fields.confirmpassword) {
-            this.message = "Password mismatch";
+    validateForm(pwd, cpwd) {
+        var message = "";
+        if (pwd !== cpwd) {
+            message = "Password mismatch";
         }
         else {
-            this.message = "Successfully registered";
+            message = "Successfully registered";
         }
-        return this.message;
+        return message;
     }
 
     render() {
@@ -83,19 +86,19 @@ class PanelBody extends Component {
                         <form id="register-form" onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <input type="text" name="username" tabIndex="1" className="form-control" placeholder="Username" required
-                                    onChange={this.onInputChange} />
+                                     />
                             </div>
                             <div className="form-group">
                                 <input type="email" name="email" tabIndex="2" className="form-control" placeholder="Email Address" required
-                                    onChange={this.onInputChange} />
+                                     />
                             </div>
                             <div className="form-group">
                                 <input type="password" name="password" tabIndex="3" className="form-control" placeholder="Password" required
-                                    onChange={this.onInputChange} />
+                                     />
                             </div>
                             <div className="form-group">
                                 <input type="password" name="confirmpassword" tabIndex="4" className="form-control" placeholder="Confirm Password"
-                                    required onChange={this.onInputChange} />
+                                     />
                             </div>
                             <div className="form-group">
                                 <div className="row">
