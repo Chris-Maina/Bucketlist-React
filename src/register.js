@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './register.css';
+import fetch from 'isomorphic-fetch';
 
 class Register extends Component {
     render() {
@@ -56,26 +57,37 @@ class PanelBody extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(evt) {
+        evt.preventDefault();
         this.setState({ 
             username: evt.target.username.value,
             email:evt.target.email.value,
             password:evt.target.password.value,
             confirmpassword:evt.target.confirmpassword.value
          });
-        var res = this.validateForm(this.state.password, this.state.confirmpassword);
-        this.setState({response : res})
-        console.log(res);
-        evt.preventDefault();
+        this.sendRequest(evt.target.email.value, evt.target.password.value);
     }
-    validateForm(pwd, cpwd) {
-        var message = "";
-        if (pwd !== cpwd) {
-            message = "Password mismatch";
-        }
-        else {
-            message = "Successfully registered";
-        }
-        return message;
+    sendRequest(uemail,upassword){
+        
+        fetch('http://127.0.0.1:5000/auth/register/', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Access-Control-Allow-Orgin':'http://localhost:3000',
+                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+                'Content-Type':'application/x-www-form-urlencoded'
+            },
+            body:"email="+uemail+"&password="+upassword
+        }).then(function(response){
+            if(!response.ok){
+                throw Error(response.statusText);
+            }
+            return response;
+        }).then(function(response){
+            console.log("ok");
+        }).catch(function(error){
+            console.log(error);
+        });
     }
 
     render() {
