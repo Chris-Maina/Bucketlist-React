@@ -3,6 +3,7 @@ import './App.css';
 import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 import Register from './register';
 import Login from './login';
+import Bucketlist from './bucket';
 
 
 class App extends Component {
@@ -42,7 +43,7 @@ class Navigation extends Component {
                     <Link to="/auth/login" className="page-scroll">Login</Link>
                   </li>
                   <li>
-                    <Link to="/bucketlist-bucket" className="page-scroll">Buckets</Link>
+                    <Link to="/bucketlist/" className="page-scroll">Buckets</Link>
                   </li>
                 </ul>
               </div>
@@ -55,6 +56,7 @@ class Navigation extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/auth/register" component={Register} />
           <Route path="/auth/login" component={Login} />
+          <Route path="/bucketlist/" component={Bucketlist} />
         </div>
       </Router>
     );
