@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './bucket.css';
 
 class Activitylist extends Component {
     render() {
