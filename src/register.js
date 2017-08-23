@@ -82,9 +82,10 @@ class PanelBody extends Component {
             if(!response.ok){
                 throw Error(response.statusText);
             }
-            return response;
-        }).then(function(response){
-            console.log("ok");
+            console.log(response.json());
+            return response.json();
+        }).then(function(data){
+            console.log(data);
         }).catch(function(error){
             console.log(error);
         });
