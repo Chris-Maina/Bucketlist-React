@@ -67,16 +67,24 @@ class LoginBody extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: "email=" + uemail + "&password=" + upassword
-        }).then(function (response) {
-            if (!response.ok) {
-                throw Error(response.statusText);
+        }).then(response => {
+            if (response.ok) {
+                console.log(response.json());
+                return response.json();
             }
-            return response;
-        }).then(function (response) {
-            console.log("ok");
-        }).catch(function (error) {
+            return Promise.reject( "sth went wrong");
+        }).then(data => {
+            if(data.access_token){
+               localStorage.setItem('access_token', data.access_token);
+           }else{
+               localStorage.setItem('access_token', "chek");
+           } 
+            console.log(data);
+        }).catch(error=> {
             console.log(error);
         });
+        let access = localStorage.getItem('access_token');
+        console.log(access);
     }
     render() {
         let style1 = { 'paddingTop': '30px' };
